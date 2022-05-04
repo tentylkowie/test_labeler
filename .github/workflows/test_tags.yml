@@ -23,6 +23,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
        run: |
         echo "$GITHUB_CONTEXT"
+        echo
         env | sort
 
      - name: Get Tag
@@ -38,6 +39,8 @@ jobs:
 
      - name: Is tag on the branch
        if: startsWith(github.ref, 'refs/tags')
+       # GITHUB_SHA is ok since github ref is tag
+       # otherwise COMMIT_SHA=$(git rev-parse refs/tags/${TAG})
        run: |
          git log "remotes/origin/${BRANCH}" --pretty=format:"%H" | grep -q "${GITHUB_SHA}" \
            && echo "tag ${GITHUB_REF_NAME} is on the branch ${BRANCH}" \
