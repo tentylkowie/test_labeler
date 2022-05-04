@@ -5,9 +5,12 @@ on:
       - 'uat-*'
     branches:
       - main
+
+env:
+  BRANCH: main
+
 jobs:
    build:
-#     if: github.event.base_ref == 'refs/heads/master'
      runs-on: ubuntu-latest
      steps:
      - name: Dump GitHub context
@@ -19,8 +22,19 @@ jobs:
         echo "end"
 
      - name: Get Tag
+       # if: startsWith(github.ref, 'refs/tags')
        id: get_tag
        run: echo ::set-output name=TAG_NAME::${GITHUB_REF/refs\/tags\//}
 
      - name: Test get tag
-       run: echo "${{ steps.get_tag.outputs.TAG_NAME }}"
+       # if: startsWith(github.ref, 'refs/tags')
+       run: |
+        echo "${{ steps.get_tag.outputs.TAG_NAME }}"
+        echo "GITHUB_REF_NAME=${GITHUB_REF_NAME}"
+
+     - name: Is tag on the branch
+       run: |
+         git log ${BRANCH} -1 --pretty='%D' ${GITHUB_REF_NAME} &>/dev/null \
+           && echo "tag ${GITHUB_REF_NAME} is on the branch ${BRANCH}" \
+           || echo "tag ${GITHUB_REF_NAME} is not on the branch ${BRANCH}"
+         
