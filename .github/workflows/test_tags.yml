@@ -37,15 +37,8 @@ jobs:
         echo "GITHUB_REF_NAME=${GITHUB_REF_NAME}"
 
      - name: Is tag on the branch
-#       if: startsWith(github.ref, 'refs/tags')
+       if: startsWith(github.ref, 'refs/tags')
        run: |
-         git branch -a
-         git log "remotes/origin/${BRANCH}"
-         echo
-         git log "remotes/origin/${BRANCH}" -1
-         echo
-         git log "remotes/origin/${BRANCH}" -1 --pretty='%D' ${GITHUB_REF_NAME}
-         echo
          git log "remotes/origin/${BRANCH}" -1 --pretty='%D' ${GITHUB_REF_NAME} &>/dev/null \
            && echo "tag ${GITHUB_REF_NAME} is on the branch ${BRANCH}" \
            || echo "tag ${GITHUB_REF_NAME} is not on the branch ${BRANCH}"
