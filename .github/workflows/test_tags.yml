@@ -17,3 +17,10 @@ jobs:
         echo "$GITHUB_CONTEXT"
         env | sort
         echo "end"
+
+     - name: Get Tag
+       id: get_tag
+       run: echo ::set-output name=TAG_NAME::${GITHUB_REF/refs\/tags\//}
+
+     - name: Test get tag
+       run: echo "${{ steps.get_tag.outputs.TAG_NAME }}"
