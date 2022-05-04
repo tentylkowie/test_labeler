@@ -39,7 +39,7 @@ jobs:
      - name: Is tag on the branch
 #       if: startsWith(github.ref, 'refs/tags')
        run: |
-         git log ${BRANCH}
+         git log refs/heads/${BRANCH}
          echo
          git log refs/heads/${BRANCH} -1
          echo
