@@ -41,7 +41,7 @@ jobs:
        run: |
          git log
          echo
-         git log ${BRANCH} -1 --pretty='%D'
+         git log ${BRANCH} -1 --pretty='%D' ${GITHUB_REF_NAME}
          echo
          git log ${BRANCH} -1 --pretty='%D' ${GITHUB_REF_NAME} &>/dev/null \
            && echo "tag ${GITHUB_REF_NAME} is on the branch ${BRANCH}" \
