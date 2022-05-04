@@ -16,3 +16,4 @@ jobs:
        run: |
         echo "$GITHUB_CONTEXT"
         env | sort
+        echo "end"
