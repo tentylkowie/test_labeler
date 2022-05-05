@@ -20,7 +20,7 @@ jobs:
        # otherwise COMMIT_SHA=$(git rev-parse refs/tags/${TAG})
        run: |
          git log "remotes/origin/${BRANCH}" --pretty=format:"%H" | grep -q "${GITHUB_SHA}" \
-           && echo ::set-output name=test::true" \
+           && echo ::set-output name=test::true \
            || echo "tag ${GITHUB_REF_NAME} is not on the branch ${BRANCH}"
      outputs:
       defaultBranch: ${{ steps.test-tag-is-on-branch.outputs.test }}
