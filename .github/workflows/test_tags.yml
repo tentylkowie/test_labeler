@@ -40,18 +40,15 @@ jobs:
         env | sort
 
      - name: Get Tag
-       if: startsWith(github.ref, 'refs/tags')
        id: get_tag
        run: echo ::set-output name=TAG_NAME::${GITHUB_REF/refs\/tags\//}
 
      - name: Test get tag
-       if: startsWith(github.ref, 'refs/tags')
        run: |
         echo "${{ steps.get_tag.outputs.TAG_NAME }}"
         echo "GITHUB_REF_NAME=${GITHUB_REF_NAME}"
 
      - name: Is tag on the branch
-       if: startsWith(github.ref, 'refs/tags')
        # GITHUB_SHA is ok since github ref is tag
        # otherwise COMMIT_SHA=$(git rev-parse refs/tags/${TAG})
        run: |
