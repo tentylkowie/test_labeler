@@ -23,7 +23,7 @@ jobs:
            && echo ::set-output name=test::true \
            || echo "tag ${GITHUB_REF_NAME} is not on the branch ${BRANCH}"
      outputs:
-      defaultBranch: ${{ steps.test-tag-is-on-branch.outputs.test }}
+      test: ${{ steps.test-tag-is-on-branch.outputs.test }}
 
 
    build:
