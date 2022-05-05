@@ -2,21 +2,21 @@ name: Test pull request closed
 
 on:
   pull_request:
-    types: [closed]
+    types: [ closed ]
     branches:
-    - main
+      - main
 
 jobs:
-   build:
-     runs-on: ubuntu-latest
-     steps:
-     - name: Dump GitHub context
-       env:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-       run: |
-        echo "$GITHUB_CONTEXT"
-        echo
-        env | sort
+        run: |
+          echo "$GITHUB_CONTEXT"
+          echo
+          env | sort
 
       - name: Get Branch Name
         id: branch_name
