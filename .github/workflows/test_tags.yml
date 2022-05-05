@@ -3,21 +3,34 @@ on:
   push:
     tags:
       - 'uat-*'
-    branches:
-      - main
 
 env:
   BRANCH: main
 
 jobs:
-   build:
+   test-is-tag-on-branch:
      runs-on: ubuntu-latest
      steps:
-
      - uses: actions/checkout@v3
        with:
          fetch-depth: 0
+     - name: Is tag on the branch
+       id: test-tag-is-on-branch
+       # GITHUB_SHA is ok since github ref is tag
+       # otherwise COMMIT_SHA=$(git rev-parse refs/tags/${TAG})
+       run: |
+         git log "remotes/origin/${BRANCH}" --pretty=format:"%H" | grep -q "${GITHUB_SHA}" \
+           && echo ::set-output name=test::true" \
+           || echo "tag ${GITHUB_REF_NAME} is not on the branch ${BRANCH}"
+     outputs:
+      defaultBranch: ${{ steps.test-tag-is-on-branch.outputs.test }}
 
+
+   build:
+     runs-on: ubuntu-latest
+     needs: [test-is-tag-on-branch]
+     if: needs.test-is-tag-on-branch.outputs.test == 'true'
+     steps:
      - name: Dump GitHub context
        env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
